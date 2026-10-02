@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img">
+  <rect width="960" height="720" fill="#eef2ff"/>
+  <rect x="180" y="160" width="600" height="360" rx="16" fill="#1f4b99"/>
+  <text x="480" y="360" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="36" font-weight="600">Brand Mailer Pack</text>
+</svg>

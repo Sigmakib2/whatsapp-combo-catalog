@@ -1,0 +1,29 @@
+{
+  "name": "whatsapp-combo-catalog",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node --input-type=module -e \"import { existsSync, readdirSync, unlinkSync } from 'node:fs'; import { join } from 'node:path'; function prune(dir){ if (!existsSync(dir)) return; for (const f of readdirSync(dir,{withFileTypes:true})) { const p=join(dir,f.name); if (f.isDirectory()) prune(p); else if (f.name.startsWith('client.')) unlinkSync(p); } } prune('dist'); prune('.vercel/output');\"",
+    "preview": "astro preview",
+    "test": "node --test src/lib/whatsapp.test.ts",
+    "studio": "npm --prefix studio run dev",
+    "studio:deploy": "npm --prefix studio run deploy"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.0.0",
+    "@astrojs/vercel": "^11.0.11",
+    "@sanity/client": "^8.9.0",
+    "@sanity/image-url": "^2.1.1",
+    "astro": "^7.3.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
+  }
+}

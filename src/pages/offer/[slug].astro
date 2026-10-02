@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import { CatalogHeader } from '../../components/CatalogHeader.tsx'
+import { OfferCard } from '../../components/OfferCard.tsx'
+import { InquiryBar } from '../../components/InquiryBar.tsx'
+import { CatalogFooter } from '../../components/CatalogFooter.tsx'
+import { getCatalog } from '../../lib/content.ts'
+import { menuPath } from '../../lib/offerUrl.ts'
+
+export const prerender = false
+
+const catalog = await getCatalog()
+const { settings, brand, offers } = catalog
+const slug = Astro.params.slug ?? ''
+const offer = offers.find((item) => item.slug === slug)
+
+if (!offer) {
+  return Astro.redirect(menuPath(Astro.url.searchParams))
+}
+
+const backHref = menuPath(Astro.url.searchParams)
+const pageTitle = `${offer.name} · ${brand.businessName}`
+const shareImageUrl = offer.imageUrl
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+Astro.response.headers.set(
+  'CDN-Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+Astro.response.headers.set(
+  'Vercel-CDN-Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+---
+
+<Base
+  brand={brand}
+  pageTitle={pageTitle}
+  shareImageUrl={shareImageUrl}
+  pixelId={settings.pixelId}
+>
+  <div
+    id="catalog-root"
+    class="catalog"
+    data-page="detail"
+    data-whatsapp-number={settings.whatsappNumber}
+    data-inquiry-intro={brand.inquiryIntro}
+    data-inquiry-outro={brand.inquiryOutro}
+    data-inquiry-bar-template={brand.inquiryBarTemplate}
+    data-price-prefix={brand.pricePrefix}
+    data-moq-label={brand.moqLabel}
+    transition:animate="fade"
+  >
+    <CatalogHeader brand={brand} />
+    <div class="offer-list">
+      <OfferCard
+        offer={offer}
+        images={offer.images}
+        brand={brand}
+        whatsappNumber={settings.whatsappNumber}
+        isFirst={true}
+        variant="detail"
+        backHref={backHref}
+      />
+    </div>
+    <InquiryBar brand={brand} whatsappNumber={settings.whatsappNumber} />
+    <CatalogFooter note={brand.footerNote} />
+  </div>
+  <script src="../../scripts/catalog.ts"></script>
+</Base>

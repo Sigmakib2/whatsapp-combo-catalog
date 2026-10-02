@@ -1,0 +1,65 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import '../styles/global.css'
+import LoadingSkeleton from '../components/LoadingSkeleton.astro'
+import type { Brand } from '../lib/types.ts'
+
+type Props = {
+  brand: Brand
+  shareImageUrl?: string
+  pixelId?: string
+  pageTitle?: string
+}
+
+const { brand, shareImageUrl, pixelId, pageTitle } = Astro.props
+const title = pageTitle ?? `${brand.businessName} · ${brand.pageTitleSuffix}`
+const description = brand.subheadline
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined
+const accentOverride =
+  brand.accentColor.toLowerCase() !== '#128c7e'
+    ? `--color-accent:${brand.accentColor}`
+    : undefined
+
+const pixelCode = pixelId
+  ? `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixelId}');fbq('track','PageView');`
+  : undefined
+---
+
+<!doctype html>
+<html lang="en" style={accentOverride}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {shareImageUrl ? <meta property="og:image" content={shareImageUrl} /> : null}
+    {canonical ? <meta property="og:url" content={canonical} /> : null}
+    {canonical ? <link rel="canonical" href={canonical} /> : null}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
+    {
+      pixelCode ? (
+        <>
+          <script is:inline set:html={pixelCode} />
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style="display:none"
+              src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+              alt=""
+            />
+          </noscript>
+        </>
+      ) : null
+    }
+  </head>
+  <body>
+    <LoadingSkeleton />
+    <slot />
+    <script src="../scripts/nav-skeleton.ts"></script>
+  </body>
+</html>

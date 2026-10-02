@@ -1,0 +1,29 @@
+---
+/**
+ * Persists across ClientRouter swaps so the same skeleton can show during fetch.
+ */
+---
+
+<div
+  id="nav-skeleton"
+  class="nav-skeleton"
+  transition:persist="nav-skeleton"
+  aria-hidden="true"
+  hidden
+>
+  <div class="nav-skeleton__panel" role="status" aria-live="polite">
+    <span class="nav-skeleton__sr">Loading offer…</span>
+    <div class="nav-skeleton__card">
+      <div class="nav-skeleton__media nav-skeleton__shimmer"></div>
+      <div class="nav-skeleton__body">
+        <div class="nav-skeleton__badge nav-skeleton__shimmer"></div>
+        <div class="nav-skeleton__title nav-skeleton__shimmer"></div>
+        <div class="nav-skeleton__price nav-skeleton__shimmer"></div>
+        <div class="nav-skeleton__line nav-skeleton__shimmer"></div>
+        <div class="nav-skeleton__line nav-skeleton__shimmer nav-skeleton__line--short"></div>
+        <div class="nav-skeleton__btn nav-skeleton__shimmer"></div>
+        <div class="nav-skeleton__btn nav-skeleton__shimmer"></div>
+      </div>
+    </div>
+  </div>
+</div>

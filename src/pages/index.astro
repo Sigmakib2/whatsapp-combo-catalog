@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro'
+import { CatalogHeader } from '../components/CatalogHeader.tsx'
+import { OfferCard } from '../components/OfferCard.tsx'
+import { OfferTypeFilter } from '../components/OfferTypeFilter.tsx'
+import { InquiryBar } from '../components/InquiryBar.tsx'
+import { CatalogFooter } from '../components/CatalogFooter.tsx'
+import { EmptyMenu } from '../components/EmptyMenu.tsx'
+import { getCatalog } from '../lib/content.ts'
+import { offerDetailPath, utmSearchParams } from '../lib/offerUrl.ts'
+
+export const prerender = false
+
+const catalog = await getCatalog()
+const { settings, brand, offers, shareImageUrl } = catalog
+
+const highlightSlug =
+  Astro.url.searchParams.get('offer') ?? Astro.url.searchParams.get('combo')
+if (highlightSlug && offers.some((offer) => offer.slug === highlightSlug)) {
+  const rest = utmSearchParams(Astro.url.searchParams)
+  for (const [key, value] of Astro.url.searchParams) {
+    if (key === 'offer' || key === 'combo') continue
+    if (!rest.has(key)) rest.set(key, value)
+  }
+  const q = rest.toString()
+  return Astro.redirect(
+    q
+      ? `/offer/${encodeURIComponent(highlightSlug)}?${q}`
+      : `/offer/${encodeURIComponent(highlightSlug)}`,
+  )
+}
+
+const showCombo = offers.some((offer) => offer.offerType === 'combo')
+const showProduct = offers.some((offer) => offer.offerType === 'product')
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+Astro.response.headers.set(
+  'CDN-Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+Astro.response.headers.set(
+  'Vercel-CDN-Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=300',
+)
+---
+
+<Base brand={brand} shareImageUrl={shareImageUrl} pixelId={settings.pixelId}>
+  <div
+    id="catalog-root"
+    class="catalog"
+    data-page="menu"
+    data-whatsapp-number={settings.whatsappNumber}
+    data-inquiry-intro={brand.inquiryIntro}
+    data-inquiry-outro={brand.inquiryOutro}
+    data-inquiry-bar-template={brand.inquiryBarTemplate}
+    data-price-prefix={brand.pricePrefix}
+    data-moq-label={brand.moqLabel}
+    data-filter-empty={brand.filterEmptyText}
+    transition:animate="fade"
+  >
+    <CatalogHeader brand={brand} />
+    {
+      offers.length === 0 ? (
+        <EmptyMenu text={brand.emptyMenuText} />
+      ) : (
+        <>
+          <OfferTypeFilter
+            brand={brand}
+            showCombo={showCombo}
+            showProduct={showProduct}
+          />
+          <div class="offer-list">
+            {offers.map((offer, i) => (
+              <OfferCard
+                offer={offer}
+                images={offer.images}
+                brand={brand}
+                whatsappNumber={settings.whatsappNumber}
+                isFirst={i === 0}
+                detailHref={offerDetailPath(offer.slug, Astro.url.searchParams)}
+              />
+            ))}
+          </div>
+          <p class="filter-empty" data-filter-empty-msg hidden>
+            {brand.filterEmptyText}
+          </p>
+        </>
+      )
+    }
+    <InquiryBar brand={brand} whatsappNumber={settings.whatsappNumber} />
+    <CatalogFooter note={brand.footerNote} />
+  </div>
+  <script src="../scripts/catalog.ts"></script>
+</Base>

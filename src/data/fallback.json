@@ -1,0 +1,102 @@
+{
+  "settings": {
+    "businessName": "Northline Packaging",
+    "whatsappNumber": "8801000000000",
+    "headline": "Packaging for your shop",
+    "subheadline": "Browse combo packs and single products, then message us on WhatsApp. We will confirm size, print, and the final price."
+  },
+  "brand": {
+    "businessName": "Northline Packaging",
+    "headline": "Packaging for your shop",
+    "subheadline": "Browse combo packs and single products, then message us on WhatsApp. We will confirm size, print, and the final price.",
+    "accentColor": "#128c7e",
+    "pageTitleSuffix": "Packaging catalog",
+    "pricePrefix": "Starting at",
+    "moqLabel": "MOQ",
+    "itemsLabel": "Included",
+    "comboBadge": "Combo",
+    "productBadge": "Product",
+    "inquireLabel": "Inquire on WhatsApp",
+    "addToInquiryLabel": "Add to inquiry",
+    "inquiryBarTemplate": "{count} in inquiry",
+    "inquiryAskLabel": "Ask on WhatsApp",
+    "inquiryClearLabel": "Clear",
+    "inquiryAddedLabel": "Added",
+    "inquiryIntro": "Hi, I am interested in these offers:",
+    "inquiryOutro": "Please share sizes, materials, and the final price for my quantity.",
+    "footerNote": "Starting prices depend on size, material, print, and quantity. The final price is confirmed on WhatsApp.",
+    "emptyMenuText": "Offers will appear here after they are published.",
+    "backToMenuLabel": "Back to menu",
+    "filterAllLabel": "All",
+    "filterGroupLabel": "Show offers",
+    "filterEmptyText": "No offers in this filter."
+  },
+  "offers": [
+    {
+      "offerType": "combo",
+      "name": "Starter Shop Pack",
+      "slug": "starter-shop-pack",
+      "startingPrice": 2500,
+      "moq": "300 pcs",
+      "summary": "For a first order",
+      "items": ["Poly mailers", "Thank-you cards", "Round stickers"],
+      "whatsappText": "Hi, I am interested in the *Starter Shop Pack*. Please share sizes, materials, and the final price for my quantity.",
+      "imageUrl": "/samples/starter-shop-pack.svg",
+      "imageAlt": "Starter Shop Pack sample image",
+      "images": [
+        {
+          "src": "/samples/starter-shop-pack.svg",
+          "width": 960,
+          "height": 720,
+          "alt": "Starter Shop Pack sample image"
+        },
+        {
+          "src": "/samples/poly-mailers.svg",
+          "width": 960,
+          "height": 720,
+          "alt": "Starter Shop Pack mailers detail"
+        }
+      ]
+    },
+    {
+      "offerType": "combo",
+      "name": "Brand Mailer Pack",
+      "slug": "brand-mailer-pack",
+      "startingPrice": 6500,
+      "moq": "500 pcs",
+      "summary": "For shops that print their logo",
+      "items": ["Printed mailers", "Tissue paper", "Logo stickers", "Thank-you cards"],
+      "whatsappText": "Hi, I am interested in the *Brand Mailer Pack*. Please share sizes, materials, and the final price for my quantity.",
+      "imageUrl": "/samples/brand-mailer-pack.svg",
+      "imageAlt": "Brand Mailer Pack sample image",
+      "images": [
+        {
+          "src": "/samples/brand-mailer-pack.svg",
+          "width": 960,
+          "height": 720,
+          "alt": "Brand Mailer Pack sample image"
+        }
+      ]
+    },
+    {
+      "offerType": "product",
+      "name": "Poly Mailers",
+      "slug": "poly-mailers",
+      "startingPrice": 1200,
+      "moq": "500 pcs",
+      "summary": "Plain mailers, no print",
+      "items": [],
+      "whatsappText": "Hi, I am interested in the *Poly Mailers*. Please share sizes, materials, and the final price for my quantity.",
+      "imageUrl": "/samples/poly-mailers.svg",
+      "imageAlt": "Poly Mailers sample image",
+      "images": [
+        {
+          "src": "/samples/poly-mailers.svg",
+          "width": 960,
+          "height": 720,
+          "alt": "Poly Mailers sample image"
+        }
+      ]
+    }
+  ]
+}
